@@ -1,0 +1,58 @@
+{
+    "name": "adrianmejias/laravel-open-ai",
+    "description": "Open AI wrapper for Laravel Framework.",
+    "keywords": [
+        "open-ai",
+        "wrapper",
+        "api",
+        "laravel"
+    ],
+    "homepage": "https://github.com/adrianmejias/laravel-open-ai",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adrian Mejias",
+            "email": "adrianmejias@gmail.com",
+            "homepage": "https://adrianmejias.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0|^8.1",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^7.4",
+        "illuminate/support": "^8.78"
+    },
+    "autoload": {
+        "psr-4": {
+            "AdrianMejias\\OpenAi\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AdrianMejias\\OpenAi\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.4",
+        "orchestra/testbench": "^6.23",
+        "pestphp/pest": "^1.21"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AdrianMejias\\OpenAi\\OpenAiServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
