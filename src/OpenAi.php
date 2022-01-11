@@ -2,9 +2,9 @@
 
 namespace AdrianMejias\OpenAi;
 
-use GuzzleHttp\Client;
-use Exception;
 use AdrianMejias\OpenAi\Exceptions\OpenAiException;
+use Exception;
+use GuzzleHttp\Client;
 
 class OpenAi
 {
