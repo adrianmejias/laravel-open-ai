@@ -2,9 +2,13 @@
 
 namespace AdrianMejias\OpenAi;
 
-use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Open AI Service Provider
+ *
+ * @package AdrianMejias\OpenAi
+ */
 class OpenAiServiceProvider extends ServiceProvider
 {
     /**
@@ -16,8 +20,8 @@ class OpenAiServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/openai.php' => config_path('openai.php'),
-            ], 'openai');
+                __DIR__ . '/../config/open-ai.php' => config_path('open-ai.php'),
+            ], 'open-ai');
         }
     }
 
@@ -28,22 +32,10 @@ class OpenAiServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/openai.php', 'openai');
+        $this->mergeConfigFrom(__DIR__ . '/../config/open-ai.php', 'open-ai');
 
-        $this->app->bind('openai', function ($app) {
-            $client = new Client([
-                'base_uri' => config('openai.endpoint'),
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                    'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . config('openai.key'),
-                ],
-            ]);
-
-            return new OpenAi($client);
-        });
-
-        $this->app->singleton(OpenAi::class, OpenAi::class);
-        $this->app->alias(OpenAi::class, 'openai');
+        $this->app->bind('open-ai', fn ($app) => new OpenAi());
+        $this->app->singleton(OpenAi::class);
+        $this->app->alias(OpenAi::class, 'open-ai');
     }
 }

@@ -23,7 +23,7 @@
             <directory>tests/Unit</directory>
         </testsuite>
     </testsuites>
-    <coverage>
+    <coverage processUncoveredFiles="true">
         <include>
             <directory suffix=".php">./src</directory>
         </include>
@@ -33,6 +33,20 @@
             <clover outputFile="build/logs/clover.xml"/>
         </report>
     </coverage>
+    <php>
+        <server name="APP_ENV" value="testing"/>
+        <server name="BCRYPT_ROUNDS" value="4"/>
+        <server name="CACHE_DRIVER" value="array"/>
+        <!-- <server name="DB_CONNECTION" value="sqlite"/> -->
+        <!-- <server name="DB_DATABASE" value=":memory:"/> -->
+        <server name="MAIL_MAILER" value="array"/>
+        <server name="QUEUE_CONNECTION" value="sync"/>
+        <server name="SESSION_DRIVER" value="array"/>
+        <server name="TELESCOPE_ENABLED" value="false"/>
+        <env name="OPENAI_KEY" value=""/>
+        <env name="OPENAI_ENDPOINT" value="api.openai.com"/>
+        <env name="OPENAI_VERSION" value="v1"/>
+    </php>
     <logging>
         <junit outputFile="build/report.junit.xml"/>
     </logging>
