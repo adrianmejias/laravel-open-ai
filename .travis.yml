@@ -30,7 +30,7 @@ before_script:
   - travis_retry composer install --no-interaction --prefer-source --dev
 
 script:
-  - XDEBUG_MODE=coverage vendor/bin/phpunit tests/ --coverage-clover clover.xml
+  - XDEBUG_MODE=coverage vendor/bin/pest tests/ --coverage-clover clover.xml
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
