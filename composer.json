@@ -27,6 +27,7 @@
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
+        "guzzlehttp/guzzle": "^7.4",
         "illuminate/support": "^8.0"
     },
     "autoload": {
