@@ -2,4 +2,4 @@
 
 use AdrianMejias\OpenAi\Tests\TestCase as BaseTestCase;
 
-uses(BaseTestCase::class)->in('Feature');
+uses(BaseTestCase::class)->in('Feature', 'Unit');

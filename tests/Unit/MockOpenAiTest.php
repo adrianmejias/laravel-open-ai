@@ -1,5 +1,7 @@
 <?php
 
+namespace AdrianMejias\OpenAi\Tests\Unit;
+
 use AdrianMejias\OpenAi\Facades\OpenAiFacade as OpenAi;
 
 it('should handle mock request', function () {

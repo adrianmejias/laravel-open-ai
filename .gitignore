@@ -25,3 +25,4 @@ Homestead.json
 composer.lock
 build/
 .php-cs-fixer.cache
+phpunit.xml

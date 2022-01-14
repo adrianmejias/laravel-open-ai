@@ -2,46 +2,34 @@
 
 namespace AdrianMejias\OpenAi\Tests;
 
-use Orchestra\Testbench\TestCase as BaseTestCase;
-use AdrianMejias\OpenAi\OpenAiServiceProvider;
 use AdrianMejias\OpenAi\OpenAiFacade;
+use AdrianMejias\OpenAi\OpenAiServiceProvider;
+use Orchestra\Testbench\TestCase as BaseTestCase;
 
+/** @inheritDoc */
 class TestCase extends BaseTestCase
 {
+    /** @inheritDoc */
     protected $loadEnvironmentVariables = true;
 
-    /**
-     * Get package providers.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return array
-     */
-    protected function getPackageProviders($app)
+    /** @inheritDoc */
+    protected function getPackageProviders($app): array
     {
         return [
             OpenAiServiceProvider::class,
         ];
     }
 
-    /**
-     * Override application aliases.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     * @return array
-     */
-    protected function getPackageAliases($app)
+    /** @inheritDoc */
+    protected function getPackageAliases($app): array
     {
         return [
             'OpenAi' => OpenAiFacade::class,
         ];
     }
 
-    /**
-     * Ignore package discovery from.
-     *
-     * @return array
-     */
-    public function ignorePackageDiscoveriesFrom()
+    /** @inheritDoc */
+    public function ignorePackageDiscoveriesFrom(): array
     {
         return [];
     }

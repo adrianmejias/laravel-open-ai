@@ -45,8 +45,9 @@ class OpenAi implements OpenAiContract
             );
         }
 
+        $baseUri = 'https://' . config('open-ai.endpoint', 'api.openai.com');
         $this->client = $client ?? new HTTPClient([
-            'base_uri' => config('open-ai.endpoint', 'api.openai.com'),
+            'base_uri' => $baseUri,
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
@@ -115,15 +116,34 @@ class OpenAi implements OpenAiContract
         string $uri = '',
         array $options = []
     ): array {
-        $uri = '/' . config('open-ai.version', 'v1') . $uri;
+        $uri = rtrim(
+            config('open-ai.version', 'v1') . '/' . ltrim($uri, '/'),
+            '/'
+        );
+        $baseUri = 'https://' . config('open-ai.endpoint', 'api.openai.com');
+        $options = array_merge([
+            'base_uri' => $baseUri,
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer ' . config('open-ai.key'),
+            ],
+        ], $options);
 
         try {
             $response = $this->client->request($method, $uri, $options);
         } catch (Exception $e) {
             throw new OpenAiException(
-                'Could not get valid response from api.',
-                103,
-                $e
+                $e->getMessage(),
+                $e->getCode(),
+                $e->getPrevious()
+            );
+        }
+
+        if ($response->getStatusCode() != 200) {
+            throw new OpenAiException(
+                'Could not get valid status code response from api endpoint.',
+                103
             );
         }
 
@@ -131,7 +151,7 @@ class OpenAi implements OpenAiContract
             $contents = (string) $response->getBody();
         } catch (Exception $e) {
             throw new OpenAiException(
-                'Could not get valid body response from api.',
+                'Could not get valid body response from api endpoint.',
                 104,
                 $e
             );

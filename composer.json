@@ -58,7 +58,12 @@
         "post-autoload-dump": [
             "@php ./vendor/bin/testbench package:discover --ansi"
         ],
-        "test": "vendor/bin/pest",
+        "test": [
+            "@test-unit",
+            "@test-feature"
+        ],
+        "test-unit": "vendor/bin/pest --testsuite Unit",
+        "test-feature": "vendor/bin/pest --testsuite Feature",
         "test-coverage": "vendor/bin/pest --coverage",
         "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
     },
