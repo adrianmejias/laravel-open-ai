@@ -14,7 +14,7 @@ it('should handle mock request', function () {
     expect($result)->toBeArray();
 });
 
-it('should handle mock completion', function () {
+it('should handle mock completions', function () {
     $options = [
         'prompt' => 'Hello',
         'temperature' => 0.9,
@@ -23,10 +23,10 @@ it('should handle mock completion', function () {
         'presence_penalty' => 0.6,
     ];
     $engine = 'davinci';
-    OpenAi::shouldReceive('complete')->once()
+    OpenAi::shouldReceive('completions')->once()
         ->with($options, $engine)->andReturn([]);
 
-    $result = OpenAi::complete($options, $engine);
+    $result = OpenAi::completions($options, $engine);
     expect($result)->toBeArray();
 });
 
@@ -43,7 +43,7 @@ it('should handle mock search', function () {
     expect($result)->toBeArray();
 });
 
-it('should handle mock answer', function () {
+it('should handle mock answers', function () {
     $options = [
         'documents' => ['Puppy A is happy.', 'Puppy B is sad.'],
         'question' => 'which puppy is happy?',
@@ -59,14 +59,14 @@ it('should handle mock answer', function () {
         'max_tokens' => 5,
         'stop' => ["\n", '<|endoftext|>'],
     ];
-    OpenAi::shouldReceive('answer')->once()
+    OpenAi::shouldReceive('answers')->once()
         ->with($options)->andReturn([]);
 
-    $result = OpenAi::answer($options);
+    $result = OpenAi::answers($options);
     expect($result)->toBeArray();
 });
 
-it('should handle mock classification', function () {
+it('should handle mock classifications', function () {
     $options = [
         'examples' => [
             ['A happy moment', 'Positive'],
@@ -78,10 +78,20 @@ it('should handle mock classification', function () {
         'search_model' => 'ada',
         'model' => 'curie',
     ];
-    OpenAi::shouldReceive('classification')->once()
+    OpenAi::shouldReceive('classifications')->once()
         ->with($options)->andReturn([]);
 
-    $result = OpenAi::classification($options);
+    $result = OpenAi::classifications($options);
+    expect($result)->toBeArray();
+});
+
+it('should handle mock files', function () {
+    $file = dirname(__DIR__, 1) . '/train.jsonl';
+    $purpose = 'classifications';
+    OpenAi::shouldReceive('files')->once()
+        ->with($file, $purpose)->andReturn([]);
+
+    $result = OpenAi::files($file, $purpose);
     expect($result)->toBeArray();
 });
 

@@ -4,8 +4,7 @@ namespace AdrianMejias\OpenAi;
 
 use AdrianMejias\OpenAi\Contracts\OpenAiContract;
 use AdrianMejias\OpenAi\Exceptions\OpenAiException;
-use Exception;
-use GuzzleHttp\Client as HTTPClient;
+use Illuminate\Support\Facades\Http;
 
 /**
  * Open AI
@@ -15,20 +14,12 @@ use GuzzleHttp\Client as HTTPClient;
 class OpenAi implements OpenAiContract
 {
     /**
-     * Guzzle client instance.
-     *
-     * @var HTTPClient
-     */
-    protected $client;
-
-    /**
      * Client instance.
      *
-     * @param null|HTTPClient $client
      * @return void
      * @throws OpenAiException
      */
-    public function __construct(?HTTPClient $client = null)
+    public function __construct()
     {
         if (empty(config('open-ai.key'))) {
             throw new OpenAiException(
@@ -50,43 +41,24 @@ class OpenAi implements OpenAiContract
                 102
             );
         }
-
-        $baseUri = 'https://' . config('open-ai.endpoint', 'api.openai.com');
-        $this->client = $client ?? new HTTPClient([
-            'base_uri' => $baseUri,
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . config('open-ai.key'),
-            ],
-        ]);
     }
 
     /**
-     * Set client instance.
-     *
-     * @param HTTPClient $client
-     * @return void
-     */
-    public function setClient(HTTPClient $client): void
-    {
-        $this->client = $client;
-    }
-
-    /**
-     * Complete.
+     * Completions.
      *
      * @param array|string[] $options
      * @param string $engine
-     * @return array|string[]
+     * @return mixed
      * @throws OpenAiException
      */
-    public function complete(array $options, string $engine = 'davinci'): array
-    {
+    public function completions(
+        array $options,
+        string $engine = 'davinci'
+    ) {
         return $this->request(
-            'POST',
+            'post',
             '/engines/' . $engine . '/completions',
-            ['json' => $options]
+            $options
         );
     }
 
@@ -95,128 +67,148 @@ class OpenAi implements OpenAiContract
      *
      * @param array|string[] $options
      * @param string $engine
-     * @return array|string[]
+     * @return mixed
      * @throws OpenAiException
      */
-    public function search(array $options, string $engine = 'davinci'): array
+    public function search(array $options, string $engine = 'davinci')
     {
         return $this->request(
-            'POST',
+            'post',
             '/engines/' . $engine . '/search',
-            ['json' => $options]
+            $options
         );
     }
 
     /**
-     * Answer.
+     * Answers.
      *
      * @param array|string[] $options
-     * @return array|string[]
+     * @return mixed
      * @throws OpenAiException
      */
-    public function answer(array $options): array
+    public function answers(array $options)
     {
-        return $this->request('POST', '/answers', ['json' => $options]);
+        return $this->request('post', '/answers', $options);
     }
 
     /**
-     * Classiciation.
+     * Classiciations.
      *
      * @param array|string[] $options
-     * @return array|string[]
+     * @return mixed
      * @throws OpenAiException
      */
-    public function classification(array $options): array
+    public function classifications(array $options)
     {
-        return $this->request(
-            'POST',
-            '/classifications',
-            ['json' => $options]
-        );
+        return $this->request('post', '/classifications', $options);
+    }
+
+    /**
+     * Files.
+     *
+     * @param string $file
+     * @param string $purpose Defaults to classifications.
+     * @return mixed
+     * @throws OpenAiException
+     */
+    public function files(
+        string $file,
+        string $purpose = 'classifications'
+    ) {
+        if (! file_exists($file)) {
+            throw new OpenAiException(
+                'File does not exist at path ' . $file,
+                103
+            );
+        }
+
+        /** @var string $contents */
+        $contents = file_get_contents($file);
+        $filename = basename($file);
+        $options = [
+            'name' => 'file',
+            'contents' => $contents,
+            'filename' => $filename,
+            'purpose' => $purpose,
+        ];
+
+        return $this->request('post', '/files', $options);
     }
 
     /**
      * Engines.
      *
-     * @return array|string[]
+     * @return mixed
      * @throws OpenAiException
      */
-    public function engines(): array
+    public function engines()
     {
-        return $this->request('GET', '/engines');
+        return $this->request('get', '/engines');
     }
 
     /**
      * Engine.
      *
      * @param string $engine
-     * @return array|string[]
+     * @return mixed
      * @throws OpenAiException
      */
-    public function engine(string $engine): array
+    public function engine(string $engine)
     {
-        return $this->request('GET', '/engines/' . $engine);
+        return $this->request('get', '/engines/' . $engine);
     }
 
     /**
      * Send request to OpenAi api.
      *
-     * @param string $method
-     * @param string $uri
-     * @param array|string[]|array<string, string[]> $options
-     * @return array|string[]
+     * @param string $method Default is get.
+     * @param string $uri Default is /.
+     * @param array|string[] $options
+     * @return mixed
      * @throws OpenAiException
      */
     public function request(
-        string $method,
-        string $uri = '',
+        string $method = 'get',
+        string $uri = '/',
         array $options = []
-    ): array {
-        $uri = rtrim(
+    ) {
+        $baseUri = 'https://' . config('open-ai.endpoint', 'api.openai.com');
+        $path = rtrim(
             config('open-ai.version', 'v1') . '/' . ltrim($uri, '/'),
             '/'
         );
-        $baseUri = 'https://' . config('open-ai.endpoint', 'api.openai.com');
-        $options = array_merge([
-            'base_uri' => $baseUri,
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . config('open-ai.key'),
-            ],
-        ], $options);
+        $uri = $baseUri . '/' . $path;
 
-        try {
-            $response = $this->client->request($method, $uri, $options);
-        } catch (Exception $e) {
-            throw new OpenAiException(
-                $e->getMessage(),
-                $e->getCode(),
-                $e->getPrevious()
-            );
+        if (isset($options['name']) && $options['name'] === 'file') {
+            $name = $options['name'];
+            $contents = $options['contents'];
+            $filename = $options['filename'];
+            $response = Http::acceptJson()
+                ->withToken(config('open-ai.key'))
+                ->attach(
+                    $name,
+                    $contents,
+                    $filename
+                )
+                ->post($uri, [
+                    'purpose' => $options['purpose'] ?? 'classifications',
+                ]);
+        } elseif ($method === 'post') {
+            $response = Http::acceptJson()
+                ->withToken(config('open-ai.key'))
+                ->post($uri, $options);
+        } else {
+            $response = Http::acceptJson()
+                ->withToken(config('open-ai.key'))
+                ->get($uri, $options);
         }
 
-        if ($response->getStatusCode() != 200) {
-            throw new OpenAiException(
-                'Could not get valid status code response from api endpoint.',
-                103
-            );
-        }
+        // @todo fix phpdoc
 
-        try {
-            $contents = (string) $response->getBody();
-        } catch (Exception $e) {
-            throw new OpenAiException(
-                'Could not get valid body response from api endpoint.',
-                104,
-                $e
-            );
-        }
-
-        if ($contents && ($json = json_decode($contents, true))) {
-            return is_array($json) ? $json : [];
-        }
-
-        return [];
+        return $response->throw(fn ($response, $e) => throw new OpenAiException(
+            $e->getMessage(),
+            $e->getCode(),
+            $e->getPrevious(),
+        ))->json(null, []);
     }
 }
