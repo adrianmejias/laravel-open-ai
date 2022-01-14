@@ -32,9 +32,9 @@ interface OpenAiContract
     /**
      * Complete.
      *
-     * @param array $options
+     * @param array|string[] $options
      * @param string $engine
-     * @return array
+     * @return array|string[]
      * @throws OpenAiException
      */
     public function complete(array $options, string $engine = 'davinci'): array;
@@ -42,9 +42,9 @@ interface OpenAiContract
     /**
      * Search.
      *
-     * @param array $options
+     * @param array|string[] $options
      * @param string $engine
-     * @return array
+     * @return array|string[]
      * @throws OpenAiException
      */
     public function search(array $options, string $engine = 'davinci'): array;
@@ -52,8 +52,8 @@ interface OpenAiContract
     /**
      * Answer.
      *
-     * @param array $options
-     * @return array
+     * @param array|string[] $options
+     * @return array|string[]
      * @throws OpenAiException
      */
     public function answer(array $options): array;
@@ -61,8 +61,8 @@ interface OpenAiContract
     /**
      * Classiciation.
      *
-     * @param array $options
-     * @return array
+     * @param array|string[] $options
+     * @return array|string[]
      * @throws OpenAiException
      */
     public function classification(array $options): array;
@@ -70,7 +70,7 @@ interface OpenAiContract
     /**
      * Engines.
      *
-     * @return array
+     * @return array|string[]
      * @throws OpenAiException
      */
     public function engines(): array;
@@ -79,7 +79,7 @@ interface OpenAiContract
      * Engine.
      *
      * @param string $engine
-     * @return array
+     * @return array|string[]
      * @throws OpenAiException
      */
     public function engine(string $engine): array;
@@ -89,8 +89,8 @@ interface OpenAiContract
      *
      * @param string $method
      * @param string $uri
-     * @param array $options
-     * @return array
+     * @param array|string[]|array<string, string[]> $options
+     * @return array|string[]
      * @throws OpenAiException
      */
     public function request(

@@ -21,7 +21,13 @@ class OpenAi implements OpenAiContract
      */
     protected $client;
 
-    /** @inheritDoc */
+    /**
+     * Client instance.
+     *
+     * @param null|HTTPClient $client
+     * @return void
+     * @throws OpenAiException
+     */
     public function __construct(?HTTPClient $client = null)
     {
         if (empty(config('open-ai.key'))) {
@@ -56,13 +62,25 @@ class OpenAi implements OpenAiContract
         ]);
     }
 
-    /** @inheritDoc */
+    /**
+     * Set client instance.
+     *
+     * @param HTTPClient $client
+     * @return void
+     */
     public function setClient(HTTPClient $client): void
     {
         $this->client = $client;
     }
 
-    /** @inheritDoc */
+    /**
+     * Complete.
+     *
+     * @param array|string[] $options
+     * @param string $engine
+     * @return array|string[]
+     * @throws OpenAiException
+     */
     public function complete(array $options, string $engine = 'davinci'): array
     {
         return $this->request(
@@ -72,7 +90,14 @@ class OpenAi implements OpenAiContract
         );
     }
 
-    /** @inheritDoc */
+    /**
+     * Search.
+     *
+     * @param array|string[] $options
+     * @param string $engine
+     * @return array|string[]
+     * @throws OpenAiException
+     */
     public function search(array $options, string $engine = 'davinci'): array
     {
         return $this->request(
@@ -82,13 +107,25 @@ class OpenAi implements OpenAiContract
         );
     }
 
-    /** @inheritDoc */
+    /**
+     * Answer.
+     *
+     * @param array|string[] $options
+     * @return array|string[]
+     * @throws OpenAiException
+     */
     public function answer(array $options): array
     {
         return $this->request('POST', '/answers', ['json' => $options]);
     }
 
-    /** @inheritDoc */
+    /**
+     * Classiciation.
+     *
+     * @param array|string[] $options
+     * @return array|string[]
+     * @throws OpenAiException
+     */
     public function classification(array $options): array
     {
         return $this->request(
@@ -98,19 +135,38 @@ class OpenAi implements OpenAiContract
         );
     }
 
-    /** @inheritDoc */
+    /**
+     * Engines.
+     *
+     * @return array|string[]
+     * @throws OpenAiException
+     */
     public function engines(): array
     {
         return $this->request('GET', '/engines');
     }
 
-    /** @inheritDoc */
+    /**
+     * Engine.
+     *
+     * @param string $engine
+     * @return array|string[]
+     * @throws OpenAiException
+     */
     public function engine(string $engine): array
     {
         return $this->request('GET', '/engines/' . $engine);
     }
 
-    /** @inheritDoc */
+    /**
+     * Send request to OpenAi api.
+     *
+     * @param string $method
+     * @param string $uri
+     * @param array|string[]|array<string, string[]> $options
+     * @return array|string[]
+     * @throws OpenAiException
+     */
     public function request(
         string $method,
         string $uri = '',
@@ -158,7 +214,7 @@ class OpenAi implements OpenAiContract
         }
 
         if ($contents && ($json = json_decode($contents, true))) {
-            return $json ?? [];
+            return is_array($json) ? $json : [];
         }
 
         return [];
