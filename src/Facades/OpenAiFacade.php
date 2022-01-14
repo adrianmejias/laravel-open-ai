@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\Facade;
  * Open AI Facade
  *
  * @package AdrianMejias\OpenAi\Facades
- * @method static void setClient(HTTPClient $client) Set client instance.
- * @method static array complete(array $options, string $engine = 'davinci')
+ * @method static array completions(array $options, string $engine = 'davinci')
  * @method static array search(array $options, string $engine = 'davinci')
- * @method static array answer(array $options)
- * @method static array classification(array $options)
+ * @method static array answers(array $options)
+ * @method static array classifications(array $options)
+ * @method static array files(string $file, string $purpose = 'classifications')
  * @method static array engines()
  * @method static array engine(string $engine)
  * @method static array request(string $method, string $uri = '', array $options = [])

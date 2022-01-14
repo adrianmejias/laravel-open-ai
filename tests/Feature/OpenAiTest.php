@@ -8,8 +8,8 @@ it('should handle request')->expect(
     fn () => OpenAi::request('GET', '/engines')
 )->toBeArray();
 
-it('should handle completion')->expect(
-    fn () => OpenAi::complete([
+it('should handle completions')->expect(
+    fn () => OpenAi::completions([
         'prompt' => 'Hello',
         'temperature' => 0.9,
         'max_tokens' => 150,
@@ -31,8 +31,8 @@ it('should handle search')->expect(
     ->object->toEqual('list')
     ->data->toBeArray();
 
-it('should handle answer')->expect(
-    fn () => OpenAi::answer([
+it('should handle answers')->expect(
+    fn () => OpenAi::answers([
         'documents' => ['Puppy A is happy.', 'Puppy B is sad.'],
         'question' => 'which puppy is happy?',
         'search_model' => 'ada',
@@ -52,15 +52,15 @@ it('should handle answer')->expect(
     ->object->toEqual('answer')
     ->selected_documents->toBeArray();
 
-it('should handle classification')->expect(
-    fn () => OpenAi::classification([
+it('should handle classifications')->expect(
+    fn () => OpenAi::classifications([
         'examples' => [
             ['A happy moment', 'Positive'],
             ['I am sad.', 'Negative'],
             ['I am feeling awesome', 'Positive'],
         ],
         'labels' => ['Positive', 'Negative', 'Neutral'],
-        'query' => 'It is a raining day =>(',
+        'query' => 'It is a raining day',
         'search_model' => 'ada',
         'model' => 'curie',
     ])
@@ -68,6 +68,15 @@ it('should handle classification')->expect(
     ->toBeArray()
     ->object->toEqual('classification')
     ->selected_examples->toBeArray();
+
+it('should handle files')->expect(
+    fn () => OpenAi::files(
+        dirname(__DIR__, 1) . '/train.jsonl',
+        'classifications'
+    )
+)
+    ->toBeArray()
+    ->object->toEqual('file');
 
 it('should handle engines')->expect(fn () => OpenAi::engines())
     ->toBeArray()

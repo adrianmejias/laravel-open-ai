@@ -4,6 +4,7 @@ namespace AdrianMejias\OpenAi\Tests;
 
 use AdrianMejias\OpenAi\OpenAiFacade;
 use AdrianMejias\OpenAi\OpenAiServiceProvider;
+use Illuminate\Support\Facades\Http;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 /** @inheritDoc */
@@ -25,6 +26,7 @@ class TestCase extends BaseTestCase
     {
         return [
             'OpenAi' => OpenAiFacade::class,
+            'Http' => Http::class,
         ];
     }
 
