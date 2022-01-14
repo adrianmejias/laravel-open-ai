@@ -2,7 +2,7 @@
 
 [![security](https://github.com/adrianmejias/laravel-open-ai/actions/workflows/security.yml/badge.svg)](https://github.com/adrianmejias/laravel-open-ai/actions/workflows/security.yml) [![tests](https://github.com/adrianmejias/laravel-open-ai/actions/workflows/tests.yml/badge.svg)](https://github.com/adrianmejias/laravel-open-ai/actions/workflows/tests.yml) [![PHPStan](https://github.com/adrianmejias/laravel-open-ai/actions/workflows/phpstan.yml/badge.svg)](https://github.com/adrianmejias/laravel-open-ai/actions/workflows/phpstan.yml) [![PHP CS Fixer](https://github.com/adrianmejias/laravel-open-ai/actions/workflows/php-cs-fixer.yml/badge.svg)](https://github.com/adrianmejias/laravel-open-ai/actions/workflows/php-cs-fixer.yml) [![StyleCI](https://github.styleci.io/repos/446770602/shield?branch=main)](https://github.styleci.io/repos/446770602?branch=main) [![Build Status](https://travis-ci.com/adrianmejias/laravel-open-ai.svg?branch=main)](https://travis-ci.com/adrianmejias/laravel-open-ai) [![codecov](https://codecov.io/gh/adrianmejias/laravel-open-ai/branch/main/graph/badge.svg?token=7TCWYB1YV6)](https://codecov.io/gh/adrianmejias/laravel-open-ai) ![Downloads](https://img.shields.io/packagist/dt/adrianmejias/laravel-open-ai) ![Packagist](https://img.shields.io/packagist/v/adrianmejias/laravel-open-ai) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) ![Liberapay](https://img.shields.io/liberapay/patrons/adrianmejias.svg?logo=liberapay)
 
-Open AI wrapper for Laravel Framework.
+[Open AI](https://openai.com/api/) api wrapper for the [Laravel Framework](https://laravel.com/).
 
 ## Installation
 
