@@ -54,7 +54,7 @@ class OpenAi implements OpenAiContract
     public function completions(
         array $options,
         string $engine = 'davinci'
-    ): array {
+    ) {
         return $this->request(
             'post',
             '/engines/' . $engine . '/completions',
@@ -70,7 +70,7 @@ class OpenAi implements OpenAiContract
      * @return mixed
      * @throws OpenAiException
      */
-    public function search(array $options, string $engine = 'davinci'): array
+    public function search(array $options, string $engine = 'davinci')
     {
         return $this->request(
             'post',
@@ -86,7 +86,7 @@ class OpenAi implements OpenAiContract
      * @return mixed
      * @throws OpenAiException
      */
-    public function answers(array $options): array
+    public function answers(array $options)
     {
         return $this->request('post', '/answers', $options);
     }
@@ -98,7 +98,7 @@ class OpenAi implements OpenAiContract
      * @return mixed
      * @throws OpenAiException
      */
-    public function classifications(array $options): array
+    public function classifications(array $options)
     {
         return $this->request('post', '/classifications', $options);
     }
@@ -115,17 +115,20 @@ class OpenAi implements OpenAiContract
         string $file,
         string $purpose = 'classifications'
     ) {
-        if (!file_exists($file)) {
+        if (! file_exists($file)) {
             throw new OpenAiException(
                 'File does not exist at path ' . $file,
                 103
             );
         }
 
+        /** @var string $contents */
+        $contents = file_get_contents($file);
+        $filename = basename($file);
         $options = [
             'name' => 'file',
-            'contents' => file_get_contents($file),
-            'filename' => basename($file),
+            'contents' => $contents,
+            'filename' => $filename,
             'purpose' => $purpose,
         ];
 
@@ -138,7 +141,7 @@ class OpenAi implements OpenAiContract
      * @return mixed
      * @throws OpenAiException
      */
-    public function engines(): array
+    public function engines()
     {
         return $this->request('get', '/engines');
     }
@@ -150,7 +153,7 @@ class OpenAi implements OpenAiContract
      * @return mixed
      * @throws OpenAiException
      */
-    public function engine(string $engine): array
+    public function engine(string $engine)
     {
         return $this->request('get', '/engines/' . $engine);
     }

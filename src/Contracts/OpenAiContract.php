@@ -22,7 +22,7 @@ interface OpenAiContract
     public function completions(
         array $options,
         string $engine = 'davinci'
-    ): array;
+    );
 
     /**
      * Search.
@@ -32,7 +32,7 @@ interface OpenAiContract
      * @return mixed
      * @throws OpenAiException
      */
-    public function search(array $options, string $engine = 'davinci'): array;
+    public function search(array $options, string $engine = 'davinci');
 
     /**
      * Answers.
@@ -41,7 +41,7 @@ interface OpenAiContract
      * @return mixed
      * @throws OpenAiException
      */
-    public function answers(array $options): array;
+    public function answers(array $options);
 
     /**
      * Classiciations.
@@ -50,7 +50,7 @@ interface OpenAiContract
      * @return mixed
      * @throws OpenAiException
      */
-    public function classifications(array $options): array;
+    public function classifications(array $options);
 
     /**
      * Files.
@@ -71,7 +71,7 @@ interface OpenAiContract
      * @return mixed
      * @throws OpenAiException
      */
-    public function engines(): array;
+    public function engines();
 
     /**
      * Engine.
@@ -80,7 +80,7 @@ interface OpenAiContract
      * @return mixed
      * @throws OpenAiException
      */
-    public function engine(string $engine): array;
+    public function engine(string $engine);
 
     /**
      * Send request to OpenAi api.
