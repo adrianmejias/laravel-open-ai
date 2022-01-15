@@ -60,7 +60,7 @@ it('should handle classifications')->expect(
             ['I am feeling awesome', 'Positive'],
         ],
         'labels' => ['Positive', 'Negative', 'Neutral'],
-        'query' => 'It is a raining day',
+        'query' => 'It is a raining day =>(',
         'search_model' => 'ada',
         'model' => 'curie',
     ])
