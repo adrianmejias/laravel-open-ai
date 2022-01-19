@@ -69,7 +69,7 @@ $engines = [
 
 ## Contributing
 
-Thank you for considering contributing to Veil! You can read the contribution guide [here](.github/CONTRIBUTING.md).
+Thank you for considering contributing to Laravel Open Ai! You can read the contribution guide [here](.github/CONTRIBUTING.md).
 
 ## Code of Conduct
 
