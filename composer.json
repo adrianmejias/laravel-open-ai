@@ -8,7 +8,6 @@
         "laravel"
     ],
     "homepage": "https://github.com/adrianmejias/laravel-open-ai",
-    "type": "package",
     "license": "MIT",
     "support": {
         "issues": "https://github.com/adrianmejias/laravel-open-ai/issues",
