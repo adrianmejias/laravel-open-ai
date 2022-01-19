@@ -10,6 +10,10 @@ This version supports PHP 8.0. You can install the package via composer:
 
 `composer require adrianmejias/laravel-open-ai`
 
+To create the `config/open-ai.php` configuration file:
+
+`php artisan vendor:publish --tag=open-ai`
+
 ## Usage
 
 ### Example
