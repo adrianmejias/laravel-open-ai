@@ -21,7 +21,9 @@ jobs:
             key: db
 
       - name: Allow pests
-        run: composer config --no-plugins allow-plugins.pestphp/pest-plugin true
+        run:
+          composer config --no-plugins allow-plugins.pestphp/pest-plugin true
+          composer config --no-plugins allow-plugins.phpstan/extension-installer true
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
