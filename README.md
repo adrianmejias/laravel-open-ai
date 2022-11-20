@@ -21,9 +21,9 @@ To create the `config/open-ai.php` configuration file:
 ```php
 <?php
 
-use OpenAiFacade as OpenAi;
+use AdrianMejias\OpenAi\Facades\OpenAiFacade;
 
-$engines = OpenAi::engines();
+$engines = OpenAiFacade::engines();
 ```
 
 Expected Output:
