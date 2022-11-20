@@ -24,4 +24,9 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: The PHP Security Checker
-        uses: symfonycorp/security-checker-action@v2
+        uses: symfonycorp/security-checker-action@v4
+        with:
+            disable-exit-code: 1
+
+      - name: Display the vulnerabilities as JSON
+        run: echo ${{ steps.security-check.outputs.vulns }}

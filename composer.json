@@ -27,7 +27,7 @@
         "ext-json": "*",
         "ext-mbstring": "*",
         "guzzlehttp/guzzle": "^7.4",
-        "illuminate/support": "^8.0"
+        "illuminate/support": "^8.42|^9.21"
     },
     "autoload": {
         "psr-4": {
@@ -76,7 +76,11 @@
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
